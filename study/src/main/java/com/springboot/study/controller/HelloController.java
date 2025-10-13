@@ -10,8 +10,9 @@ public class HelloController {
      * 예) /hello
      */
     @GetMapping("/hello")
-    public void hello(){
+    public String hello(){
         System.out.println("------> HelloController!!!");
+        return "hello"; //view nmae
     }
 
 }

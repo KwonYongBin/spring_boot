@@ -1,10 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!-- 컴파일 진행 -->
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
     <h1>Welcome to Hello World!!!</h1>
+    <p>템플릿 폴더에 있는 html 파일</p>
+    <p th:text="'경로명 : ' + ${pathName}"></p>
+    <p th:text="'경로명 : ' + ${data}"></p>
 </body>
 </html>

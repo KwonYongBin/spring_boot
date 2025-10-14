@@ -1,8 +1,8 @@
-package com.springboot.study.dto;
+package com.springboot.deploy.demo.dto;
 
 public class Member {
     private String id;
-    private String pass;
+    private String password;
     private String name;
     private String address;
 
@@ -14,12 +14,12 @@ public class Member {
         this.id = id;
     }
 
-    public String getPass() {
-        return pass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {

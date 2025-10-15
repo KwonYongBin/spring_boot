@@ -8,6 +8,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MemberController {
+    /**
+     * TEST API 회원가입 화면
+     */
+    @GetMapping("/restSignup")
+    public String restSignup(){
+        return "restSignup";
+    }
+
+    /**
+     * TEST API 로그인 화면
+     */
+    @GetMapping("/restLogin")
+    public String restLogin(){
+        return "restLogin";
+    }
+
     @GetMapping("/login")
     public String login(){
         return "login"; //로그인 화면

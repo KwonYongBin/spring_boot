@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequestMapping("/member")
 @RestController //내무에 @ResponseBody 포함
 public class MembarRestController {
 
@@ -16,16 +17,17 @@ public class MembarRestController {
         return member;
     }
 
+
     @PostMapping("/restLogin")
-    public Map<String, Object> restLogin(@RequestBody Member member){
+    public Map<String, Object> restLogin(@RequestBody Member member) {
         boolean result = false;
         if(member.getId().equals("test") && member.getPass().equals("1234")) result = true;
 
-        //Map 객체를 생성하여 전송 --> 자동으로 JSON 객체로 변환
+        //Map 객체(key, value)를 생성하여 전송  --> 자동으로  JSON 객체로 변환
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("result", result);
         response.put("member", member);
 
-        return response; // 호출한 페이지로 문자열 혹은 JSON 객체로 전송
+        return response; //호출한 페이지로 문자열 혹은 JSON 객체로 전송 : { "result": true }
     }
 }

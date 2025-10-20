@@ -6,7 +6,7 @@ import { useProduct } from '../../hooks/useProduct.js';
 import { ProductContext } from '../../context/ProductContext.js';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductList } from '../../feature/Product/ProductAPI.js';
+import { getProductList } from "../../feature/Product/ProductAPI.js";
 
 export function ProductList() {
     const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export function ProductList() {
                     <div className='product-list' key={idx} >
                         {rowArray && rowArray.map((product, idx) =>
                             <Link to={`/products/${product.pid}`} key={idx}>
-                                <ProductAvatar img={product.image} key={idx} />  
+                                <ProductAvatar img={product.image}  />
                             </Link>                          
                         )}
                     </div>

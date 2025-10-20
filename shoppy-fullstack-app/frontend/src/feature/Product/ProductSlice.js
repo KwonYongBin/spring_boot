@@ -25,7 +25,7 @@ export const productSlice = createSlice({
         // state.product = filterProduct;
 
         //2. products 1차원 배열에서 find 함수
-        state.product = state.products.find(item=> item.pid === pid);
+        state.product = state.products.find(item => item.pid === pid);
     }
   },
 })

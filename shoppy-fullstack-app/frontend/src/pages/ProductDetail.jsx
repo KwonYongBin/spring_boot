@@ -9,7 +9,7 @@ import { QnA } from '../components/detailTabs/QnA.jsx';
 import { Return } from '../components/detailTabs/Return.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../feature/cart/cartAPI.js';
-import { getProduct } from '../feature/Product/ProductAPI.js';
+import { getProduct, getProductList } from '../feature/Product/ProductAPI.js';
 
 export function ProductDetail() {
     const {pid} = useParams();
@@ -17,11 +17,11 @@ export function ProductDetail() {
     const product = useSelector((state) => state.product.product );
     const imgList = useSelector((state) => state.product.product.imgList);
 
-    const [size, setSize] = useState('XS');
+    const [size, setSize] = useState('XS');  
     const [tabName, setTabName] = useState('detail');
     const tabLabels = ['DETAIL', 'REVIEW', 'Q&A', 'RETURN & DELIVERY'];
     const tabEventNames = ['detail', 'review', 'qna', 'return'];
-
+    
     useEffect(()=> {
         dispatch(getProduct(pid));
     }, []);
@@ -44,7 +44,7 @@ export function ProductDetail() {
                     <li className='product-detail-subtitle-star'>
                         <StarRating  totalRate={product.rate}
                                      style="star-coral"
-                        />
+                                />
                         <span>527개 리뷰 &nbsp;&nbsp; {">"} </span>
                     </li>
                     <li>
@@ -55,7 +55,7 @@ export function ProductDetail() {
                         <select
                             className="product-detail-select2"
                             onChange={(e) => setSize(e.target.value)}
-                        >
+                            >
                             <option value="XS">XS</option>
                             <option value="S">S</option>
                             <option value="M">M</option>
@@ -64,12 +64,12 @@ export function ProductDetail() {
                         </select>
                     </li>
                     <li className="flex">
-                        <button type="button"
+                        <button type="button" 
                                 className="product-detail-button order">바로 구매</button>
                         <button type="button"
                                 className="product-detail-button cart"
                                 onClick={()=>{dispatch(addCart(product.pid, size))}}
-                        > 쇼핑백 담기</button>
+                                > 쇼핑백 담기</button>
                         <div type="button" className="gift">
                             <PiGiftThin />
                             <div className="gift-span">선물하기</div>
@@ -79,24 +79,24 @@ export function ProductDetail() {
                         <ul className='product-detail-summary-info'>
                             <li>상품 요약 정보</li>
                         </ul>
-                    </li>
+                    </li>               
                 </ul>
             </div>
 
             <div className='product-detail-tab'>
                 <ul className='tabs'>
-                    { tabLabels && tabLabels.map((label, i) =>
+                    { tabLabels && tabLabels.map((label, i) => 
                         <li className={tabName === tabEventNames[i]? "active": "" }>
                             <button type="button"
                                     onClick={()=> setTabName(tabEventNames[i])}
-                            >{label}</button>
+                                >{label}</button>
                         </li>
                     )}
                 </ul>
 
-                {tabName === "detail"
-                    &&  <Detail imgList={imgList}
-                                info={product.detailInfo}       />}
+                {tabName === "detail" 
+                                &&  <Detail imgList={imgList} 
+                                            info={product.detailInfo}       />}
                 {tabName === "review" &&  <Review />}
                 {tabName === "qna" &&  <QnA />}
                 {tabName === "return" &&  <Return />}
@@ -105,6 +105,7 @@ export function ProductDetail() {
             <div style={{marginBottom:"50px"}}></div>
         </div>
 
-
+        
     );
 }
+

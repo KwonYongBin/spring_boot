@@ -3,45 +3,45 @@ import { validateFormCheck,  validateSignupFormCheck } from '../../utils/validat
 import { axiosPost } from '../../utils/dataFetch.js';
 
 /**
- Id 중복 체크
- */
+    Id 중복 체크
+*/
 export const getIdCheck = (id) => async(dispatch) => {
-    const data = { "id": id };
-    const url = "http://localhost:8080/member/idcheck";
-    const result = await axiosPost(url, data);
-    return result;
+            const data = { "id": id };
+            const url = "http://localhost:8080/member/idcheck";
+            const result = await axiosPost(url, data);
+            return result;
 }
 
 /**
- Signup
- */
+    Signup
+*/
 export const getSignup = (formData, param) => async(dispatch) => {
-    let result = null;
-    if(validateSignupFormCheck(param)) {
-        const url = "http://localhost:8080/member/signup";
-        result = await axiosPost(url, formData);
-    }
-    return result;
+     let result = null;
+     if(validateSignupFormCheck(param)) {
+                const url = "http://localhost:8080/member/signup";
+                result = await axiosPost(url, formData);
+      }
+      return result;
 }
 
 /**
- Login
- */
+    Login
+*/
 export const getLogin = (formData, param) => async(dispatch) => {
 
     if(validateFormCheck(param)) {
         const url = "http://localhost:8080/member/login";
         const result = await axiosPost(url, formData);
         if(result) {
-            dispatch(login({"userId":formData.id}));
-            return true;
-        }
+            dispatch(login({"userId":formData.id}));   
+            return true;          
+        } 
     }
     return false;
 }
 
 /**
- Logout
+    Logout
  */
 export const getLogout = () => async(dispatch) => {
     dispatch(logout());

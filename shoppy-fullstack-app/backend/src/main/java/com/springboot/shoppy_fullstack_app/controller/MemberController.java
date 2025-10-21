@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/member")
-//@CrossOrigin(origins = {"http://localhost:3000"}) // 리눅스 mac은 에러 발생 할 수 있음
+//@CrossOrigin(origins = {"http://localhost:3000"})
 public class MemberController {
     private final MemberService memberService;
 

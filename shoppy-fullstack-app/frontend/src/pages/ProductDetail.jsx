@@ -9,13 +9,13 @@ import { QnA } from '../components/detailTabs/QnA.jsx';
 import { Return } from '../components/detailTabs/Return.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../feature/cart/cartAPI.js';
-import { getProduct, getProductList } from '../feature/Product/ProductAPI.js';
+import { getProduct, getProductList } from '../feature/product/productAPI.js';
 
 export function ProductDetail() {
     const {pid} = useParams();
     const dispatch = useDispatch();
     const product = useSelector((state) => state.product.product );
-    const imgList = useSelector((state) => state.product.product.imgList);
+    const imgList = useSelector((state) => state.product.imgList);
 
     const [size, setSize] = useState('XS');  
     const [tabName, setTabName] = useState('detail');
@@ -30,7 +30,7 @@ export function ProductDetail() {
         <div className="content">
             <div className='product-detail-top'>
                 <div className='product-detail-image-top'>
-                    <img src={product.image} />
+                    <img src={product.image && `/images/${product.image}`} />
                     <ImageList  className="product-detail-image-top-list"
                                 imgList={imgList}/>
                 </div>
@@ -86,7 +86,7 @@ export function ProductDetail() {
             <div className='product-detail-tab'>
                 <ul className='tabs'>
                     { tabLabels && tabLabels.map((label, i) => 
-                        <li className={tabName === tabEventNames[i]? "active": "" }>
+                        <li className={tabName === tabEventNames[i]? "active": "" } key={i}>
                             <button type="button"
                                     onClick={()=> setTabName(tabEventNames[i])}
                                 >{label}</button>

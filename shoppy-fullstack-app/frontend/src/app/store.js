@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import cartSlice  from '../feature/cart/cartSlice.js'
-import productSlice  from '../feature/Product/ProductSlice.js'
+import productSlice  from '../feature/product/productSlice.js'
 import authSlice from '../feature/auth/authSlice.js'
 
 //액션 로깅 처리 담당 미들웨어

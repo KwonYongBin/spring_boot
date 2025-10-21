@@ -20,11 +20,11 @@ public class JdbcTemplateMemberRepository  implements  MemberRepository{
     public String login(String id) {
         String sql = "select pwd from member where id = ?";
         String encodePwd = jdbcTemplate.queryForObject(sql, String.class, id);
-        return  encodePwd;
+        return encodePwd;
 
 //        Member member = jdbcTemplate.queryForObject(sql,
-//                new BeanPropertyRowMapper<>(Member.class), id);//RowMapper
-//
+//                                    new BeanPropertyRowMapper<>(Member.class),  //RowMapper<T>
+//                                    id);
 //        return member.getPwd();
     }
 

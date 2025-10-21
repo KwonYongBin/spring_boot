@@ -6,7 +6,7 @@ import { useProduct } from '../../hooks/useProduct.js';
 import { ProductContext } from '../../context/ProductContext.js';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductList } from "../../feature/Product/ProductAPI.js";
+import { getProductList } from '../../feature/product/productAPI.js';
 
 export function ProductList() {
     const dispatch = useDispatch();

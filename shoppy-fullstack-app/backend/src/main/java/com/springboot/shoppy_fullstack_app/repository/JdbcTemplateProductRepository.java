@@ -1,6 +1,9 @@
 package com.springboot.shoppy_fullstack_app.repository;
 
 import com.springboot.shoppy_fullstack_app.dto.Product;
+import com.springboot.shoppy_fullstack_app.dto.ProductDetailinfo;
+import com.springboot.shoppy_fullstack_app.dto.ProductQna;
+import com.springboot.shoppy_fullstack_app.dto.ProductReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,10 +14,42 @@ import java.util.List;
 
 @Repository
 public class JdbcTemplateProductRepository  implements ProductRepository{
+
+    @Override
+    public ProductReturn findReturn(){
+        String sql = " select rid, title, description, list from product_return";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProductReturn.class));
+    }
+
     private JdbcTemplate jdbcTemplate;
 
     public JdbcTemplateProductRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @Override
+    public List<ProductQna> findQna(int pid) {
+        String sql = """
+                    select  qid, 
+                            title, 
+                            content, 
+                            is_complete as isComplete, 
+                            is_lock as isLock, 
+                            id, 
+                            pid, 
+                            cdate
+                    from product_qna 
+                    where pid = ? 
+                 """;
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(ProductQna.class), pid);
+    }
+
+    @Override
+    public ProductDetailinfo findProductDetailinfo(int pid) {
+        String sql = " select did, title_en as titleEn, title_ko as titleKo, pid, list"
+                   + " from product_detailinfo"
+                   + " where pid = ?";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProductDetailinfo.class), pid);
     }
 
     @Override

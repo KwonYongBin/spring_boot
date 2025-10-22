@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { axiosData } from '../../utils/dataFetch.js';
+import { getQna } from '../../feature/product/ProductAPI.js';
 
-export function QnA() {
+export function QnA({pid}) {
     const [qnaData, setQnaData] = useState([]);
     const [openQid, setOpenQid] = useState(null);
     const [isOpen, setIsOpen] = useState(true);
 
     useEffect(()=> {
-        const fetch = async() => {
-            const jsonData = await axiosData("/data/productQnA.json");
+        const fetch = async(pid) => {
+            const jsonData = await getQna(pid);
             setQnaData(jsonData);
         }
-        fetch();
+        fetch(pid);
     }, []);
 
    const handleToggle = (qid) => {
@@ -41,10 +41,10 @@ export function QnA() {
             </div>
             <table className='review-list-content'>
                 <tbody>
-                    {qnaData && qnaData.map(item => 
+                    {qnaData && qnaData.map(item =>
                         <tr>
                             <td style={{width:"10%"}}>
-                                {item.isComplete ? <span>답변완료</span> 
+                                {item.isComplete ? <span>답변완료</span>
                                                  : <span>답변준비중</span> }
                             </td>
                             <td style={{width:"60%"}} >
@@ -57,7 +57,7 @@ export function QnA() {
                             <td>{item.cdate}</td>
                         </tr>
                     )}
-                    
+
                     <tr>
                         <td colSpan={4}>{"<< "} 1 2 3 4 5 {" >>"}</td>
                     </tr>

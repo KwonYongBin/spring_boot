@@ -44,10 +44,11 @@ export const addCart = (pid, size) => async (dispatch) => {
         const url = "/cart/add";
         const item = {"pid":pid, "size":size, "qty":1, "id":userId};
         const rows = await axiosPost(url, item);
-        // alert("선택한 상품이 추가됐습니다.")
+        alert("선택한 상품이 추가됐습니다.")
         dispatch(updateCartCount());
     } else {
        const rows = await updateCart(checkResult.cid, "+");
+       alert("선택한 상품이 추가됐습니다.")
     }
     return 1;
 

@@ -6,6 +6,8 @@ import com.springboot.shoppy_fullstack_app.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartServiceImpl implements CartService{
     private CartRepository cartRepository;
@@ -16,7 +18,12 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public CartListResponse findList(CartItem cartItem){
+    public int deleteItem(CartItem cartItem){
+        return cartRepository.deleteItem(cartItem);
+    }
+
+    @Override
+    public List<CartListResponse> findList(CartItem cartItem) {
         return cartRepository.findList(cartItem);
     }
 
@@ -32,6 +39,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public CartItem checkQty(CartItem cartItem) {
+        System.out.println("CartServiceImple :: " + cartItem.getPid() + cartItem.getSize() + cartItem.getId());
         return cartRepository.checkQty(cartItem);
     }
 

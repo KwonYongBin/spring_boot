@@ -6,9 +6,12 @@ import { getLogout } from '../../feature/auth/authAPI.js';
 
 export function Header() {
     const navigate = useNavigate();
+    
     const dispatch = useDispatch();
     const cartCount = useSelector((state) => state.cart.cartCount);
     const isLogin = useSelector((state) => state.auth.isLogin);
+    let userId = null;
+    if(isLogin) userId = JSON.parse(localStorage.getItem("loginInfo")).userId;
 
     const handleLogout = () => {
         const succ = dispatch(getLogout());
@@ -27,6 +30,7 @@ export function Header() {
                     <span>Shoppy-redux(toolkit)::fullstack</span>
                 </Link>
                 <nav className='header-right'>
+                    {isLogin && <span>[ {userId} ]</span>}
                     <Link to="/all">Products</Link>
                     <Link to="/cart" className="header-icons-cart-link">
                         <GiShoppingCart className='header-icons'/>

@@ -7,9 +7,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
-public class JdbcTemplateCartRepository implements CartRepository {
+public class JdbcTemplateCartRepository implements CartRepository{
     private JdbcTemplate jdbcTemplate;
 
     public JdbcTemplateCartRepository(DataSource dataSource) {
@@ -17,12 +18,32 @@ public class JdbcTemplateCartRepository implements CartRepository {
     }
 
     @Override
-    public CartListResponse findList(CartItem cartItem) {
+    public int deleteItem(CartItem cartItem) {
+        String sql ="""
+                        delete from cart where cid = ?
+                    """;
+        return jdbcTemplate.update(sql, cartItem.getCid());
+    }
+
+    @Override
+    public List<CartListResponse> findList(CartItem cartItem) {
         String sql = """
-                    
+                select  m.id,
+                		p.pid,
+                		p.name,
+                		p.image,
+                        p.price,
+                        c.size,
+                        c.qty,
+                        c.cid
+                from member m, product p, cart c
+                where m.id = c.id
+                	and p.pid = c.pid
+                	and m.id = ?                
                 """;
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(CartListResponse.class), cartItem.getId();
-        }
+        System.out.println(sql);
+        System.out.println(cartItem.getId());
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(CartListResponse.class), cartItem.getId());
     }
 
     @Override
@@ -35,38 +56,44 @@ public class JdbcTemplateCartRepository implements CartRepository {
     public int updateQty(CartItem cartItem) {
         String sql = "";
         if(cartItem.getType().equals("+")) {
-            sql = "update cart set qty = qty + 1 where cid = ?";
+            sql = " update cart set qty = qty + 1 where cid =? ";
         } else {
-            sql = "update cart set qty = qty - 1 where cid = ?";
+            sql = " update cart set qty = qty - 1 where cid =? ";
         }
         return jdbcTemplate.update(sql, cartItem.getCid());
     }
 
     @Override
     public CartItem checkQty(CartItem cartItem) {
+        System.out.println("CartRepository :: " + cartItem.getPid() + cartItem.getSize() + cartItem.getId());
         String sql = """
-                    select cid, sum(pid = ? and size=? and id=?) as checkQty
-                    	from cart
-                    	group by cid, id
-                    	order by checkQty desc
-                    	limit 1
+                SELECT
+                   ifnull(MAX(cid), 0) AS cid,
+                   COUNT(*) AS checkQty
+                 FROM cart
+                 WHERE pid = ? AND size = ? AND id = ?
                 """;
-        Object [] params = { cartItem.getPid(), cartItem.getSize(), cartItem.getId()};
-        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(CartItem.class), params);
+
+        Object[] params = {
+                cartItem.getPid(), cartItem.getSize(), cartItem.getId()
+        };
+        CartItem resultCartItem = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(CartItem.class), params);
+
+        System.out.println("resultCartItem = " + resultCartItem);
+        return resultCartItem;
     }
 
     @Override
     public int add(CartItem cartItem) {
-        //DB 연동
         String sql = """
-                    insert into cart(size, qty, pid, id, cdate)
-                        values (?, ?, ?, ?, now())
+                insert into cart(size, qty, pid, id, cdate)
+                    values(?, ?, ?, ?, now())                
                 """;
         Object [] params = {
                 cartItem.getSize(),
                 cartItem.getQty(),
                 cartItem.getPid(),
-                cartItem.getId(),
+                cartItem.getId()
         };
         return jdbcTemplate.update(sql, params);
     }

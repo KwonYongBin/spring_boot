@@ -32,14 +32,18 @@ public class JdbcTemplateCartRepository implements CartRepository{
                 		p.pid,
                 		p.name,
                 		p.image,
-                        p.price,
-                        c.size,
-                        c.qty,
-                        c.cid
-                from member m, product p, cart c
-                where m.id = c.id
-                	and p.pid = c.pid
-                	and m.id = ?                
+                            p.price,
+                            c.size,
+                            c.qty,
+                            c.cid,
+                            (select sum (c.qty * p.price)
+                                    from cart c
+                                    inner join product p on c.pid = p.pid
+                                    where c.id = ?) as total_price
+                                from memeber m, product p, cart c
+                                where m.id = c.id
+                                and p.pid  = c.pid
+                                and m.id = ?
                 """;
         System.out.println(sql);
         System.out.println(cartItem.getId());

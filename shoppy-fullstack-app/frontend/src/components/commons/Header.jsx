@@ -6,7 +6,7 @@ import { getLogout } from '../../feature/auth/authAPI.js';
 
 export function Header() {
     const navigate = useNavigate();
-    
+
     const dispatch = useDispatch();
     const cartCount = useSelector((state) => state.cart.cartCount);
     const isLogin = useSelector((state) => state.auth.isLogin);

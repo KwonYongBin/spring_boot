@@ -1,6 +1,7 @@
 package com.springboot.shoppy_fullstack_app.repository;
 
 import com.springboot.shoppy_fullstack_app.dto.CartItem;
+import com.springboot.shoppy_fullstack_app.dto.CartListResponse;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,21 @@ public class JdbcTemplateCartRepository implements CartRepository {
 
     public JdbcTemplateCartRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @Override
+    public CartListResponse findList(CartItem cartItem) {
+        String sql = """
+                    
+                """;
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(CartListResponse.class), cartItem.getId();
+        }
+    }
+
+    @Override
+    public CartItem getCount(CartItem cartItem) {
+        String sql = "select ifnull(sum(qty), 0) as sumQty from cart where id = ?";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(CartItem.class), cartItem.getId());
     }
 
     @Override

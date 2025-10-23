@@ -1,12 +1,14 @@
 package com.springboot.shoppy_fullstack_app.controller;
 
 import com.springboot.shoppy_fullstack_app.dto.CartItem;
+import com.springboot.shoppy_fullstack_app.dto.CartListResponse;
 import com.springboot.shoppy_fullstack_app.dto.Product;
 import com.springboot.shoppy_fullstack_app.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+
 @RequestMapping("/cart")
 public class CartController {
     private CartService cartService;
@@ -14,6 +16,16 @@ public class CartController {
     @Autowired
     public CartController(CartService cartService) {
         this.cartService = cartService;
+    }
+
+    @PostMapping("/list")
+    public CartListResponse findList(@RequestBody CartItem cartItem) {
+        return cartService.findList(cartItem);
+    }
+
+    @PostMapping("/count")
+    public CartItem count (@RequestBody CartItem cartItem){
+        return cartService.getCount(cartItem);
     }
 
     @PostMapping("/updateQty")

@@ -1,8 +1,16 @@
-import React from 'react';
-import { addCartItem, updateCartCount, 
+import { addCartItem, updateCartCount,
          showCartItem, updateTotalPrice,
          updateCartItem, removeCartItem } from './cartSlice.js';
 import {axiosData, axiosGet, axiosPost} from '../../utils/dataFetch.js';
+
+/** 장바구니 카운트*/
+export const getCartCount = async(id) => {
+    const url = "/cart/count";
+    const data = {"id":id};
+    const jsonData = await axiosPost(url, data);
+    console.log("getCartCount >> ", jsonData);
+    return jsonData.sumQty;
+}
 
 export const removeCart = (cid) => async(dispatch) => {
     dispatch(removeCartItem({"cid": cid}));
@@ -48,6 +56,7 @@ export const addCart = (pid, size) => async (dispatch) => {
         dispatch(updateCartCount());
     } else {
        const rows = await updateCart(checkResult.cid, "+");
+       dispatch(updateCartCount())
        alert("선택한 상품이 추가됐습니다.")
     }
     return 1;

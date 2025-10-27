@@ -56,13 +56,13 @@ public class KakaoPayService {
 
         // 1) 요청 바디 (kapi는 Form-URL-Encoded)
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("cid", CID);
-        params.add("partner_order_id", orderId);                    // ✅ 꼭 필요!
+        params.add("cid", CID); // 가맹점 코드 (테스트용)
+        params.add("partner_order_id", orderId);                    // ✅ 꼭 필요! 이름은 그대로 사용
         params.add("partner_user_id", kakaoPay.getUserId());
         params.add("item_name", kakaoPay.getItemName());
         params.add("quantity", String.valueOf(kakaoPay.getQty()));  // ✅ 문자열로
         params.add("total_amount", String.valueOf(kakaoPay.getTotalAmount()));
-         params.add("tax_free_amount", "0"); // 필요 시 사용
+        params.add("tax_free_amount", "0"); // 필요 시 사용
 
         // 콜백 URL에 orderId를 함께 전달 (승인 단계에서 사용)
         params.add("approval_url", "http://localhost:8080/payment/qr/success?orderId=" + orderId);
@@ -81,6 +81,8 @@ public class KakaoPayService {
             userIdStore.put(orderId, kakaoPay.getUserId());
 
             return res;
+
+
         } catch (Exception e) {
             System.err.println("Kakao Pay Ready 실패: " + e.getMessage());
             throw e; // 로깅/예외 처리 전략에 맞게 변환
@@ -103,7 +105,8 @@ public class KakaoPayService {
     // ----------------------------------------------------
     // 최종 결제 승인 (Approve)
     // ----------------------------------------------------
-    public KakaoApproveResponse approve( String tid, String userId, String orderId, String pgToken) {
+
+    public KakaoApproveResponse approve( String tid, String userId, String orderId, String pgToken ) {
 
         // 1. 요청 바디 설정
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();

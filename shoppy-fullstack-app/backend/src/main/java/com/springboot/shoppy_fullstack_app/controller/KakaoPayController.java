@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/payment")
@@ -30,19 +31,13 @@ public class KakaoPayController {
      */
     @PostMapping("/kakao/ready")
     public KakaoReadyResponse paymentKakao(@RequestBody  KakaoPay kakaoPay) {
-        String orderId = kakaoPay.getOrderId();
-        String userId = kakaoPay.getUserId();
-        String itemName = kakaoPay.getItemName();
-        String qty = kakaoPay.getQty();
-        String totalAmount = kakaoPay.getTotalAmount();
+        // orderId(주문번호) 생성 : UUID class 사용
+        kakaoPay.setOrderId(UUID.randomUUID().toString());
 
-        String TEMP_TID = null;
-        System.out.println(orderId + userId + itemName + qty + totalAmount);
+        String TEMP_TID = null; //카카오에서 페이지에 접근할 수 있는 권한을 부여
         KakaoReadyResponse response = kakaoPayService.kakaoPayReady(kakaoPay);
-        System.out.println("Kakao Pay Ready --> " + response);
         if (response != null) {
             TEMP_TID = response.getTid(); // 발급받은 TID 저장
-            System.out.println("TID 발급 성공: " + TEMP_TID + ". 사용자에게 QR 코드를 제시하고 승인을 기다립니다.");
         } else {
             System.out.println("결제 준비 실패.");
         }
@@ -62,6 +57,7 @@ public class KakaoPayController {
         System.out.println("Kakao Approve Success --> " + approve);
 
         // 3. 결제 완료 처리 (DB 상태 업데이트 등)
+        // DB 상태 업데이트 - 주문상품을 order_history 테이블 저장, cart에서는 삭제
         URI redirect = URI.create("http://localhost:3000/payResult?orderId=" + orderId + "&status=success");
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(redirect);

@@ -19,7 +19,7 @@
             };
 
             //2. fetch 호출
-            const response = await fetch("http://localhost:8080/restSignup", {
+            const response = await fetch("http://localhost:8080/member/restSignup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json"  },
                 body: JSON.stringify(formData)
@@ -44,31 +44,31 @@
     </script>
 </head>
 <body>
-<h1>Signup(REST) 화면</h1>
-<ul>
-    <li>
-        <label>아이디</label>
-        <input type="text" id="id">
-    </li>
-    <li>
-        <label>패스워드</label>
-        <input type="password" id="pass">
-    </li>
-    <li>
-        <label>이름</label>
-        <input type="text" id="name">
-    </li>
-    <li>
-        <label>주소</label>
-        <input type="text" id="address">
-    </li>
-    <li>
-        <button type="button" onClick="handleSubmit()">Singup</button>
-        <button type="reset">Reset</button>
-    </li>
-</ul>
-<hr>
-<div id="result"></div>
-<a href="/">홈으로</a>
+    <h1>Signup(REST) 화면</h1>
+    <ul>
+        <li>
+            <label>아이디</label>
+            <input type="text" id="id">
+        </li>
+        <li>
+            <label>패스워드</label>
+            <input type="password" id="pass">
+        </li>
+        <li>
+            <label>이름</label>
+            <input type="text" id="name">
+        </li>
+        <li>
+            <label>주소</label>
+            <input type="text" id="address">
+        </li>
+        <li>
+            <button type="button" onClick="handleSubmit()">Singup</button>
+            <button type="reset">Reset</button>
+        </li>
+    </ul>
+    <hr>
+    <div id="result"></div>
+    <a href="/">홈으로</a>
 </body>
 </html>

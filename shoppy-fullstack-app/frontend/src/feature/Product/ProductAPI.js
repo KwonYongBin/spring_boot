@@ -3,11 +3,11 @@ import { createProduct, filterProduct } from './productSlice.js';
 import { axiosData, groupByRows, axiosGet,  axiosPost } from '../../utils/dataFetch.js';
 
 /**
- 상품 Return
- */
+    상품 Return
+*/
 export const getReturn = async() => {
     const url = "/product/return";
-    const returnData = await axiosGet(url);
+    const returnData  = await axiosGet(url);
     const list = JSON.parse(returnData.list);
     return {...returnData, list: list};
 }

@@ -13,15 +13,15 @@ import java.util.List;
 @Service
 //@Transactional
 public class ProductServiceImpl implements ProductService {
-    @Override
-    public ProductReturn findRetrun() {return productRepository.findReturn();}
-
     private ProductRepository productRepository;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
+    @Override
+    public ProductReturn findReturn() { return productRepository.findReturn(); }
 
     @Override
     public List<ProductQna> findQna(int pid) {

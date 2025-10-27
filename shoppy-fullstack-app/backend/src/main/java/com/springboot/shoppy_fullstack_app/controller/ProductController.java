@@ -22,7 +22,7 @@ public class ProductController {
 
     @GetMapping("/return")
     public ProductReturn getReturn() {
-        return productService.findRetrun();
+        return productService.findReturn();
     }
 
     @PostMapping("/qna")

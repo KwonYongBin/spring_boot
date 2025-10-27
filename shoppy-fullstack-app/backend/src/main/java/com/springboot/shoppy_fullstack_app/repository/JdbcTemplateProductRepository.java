@@ -14,17 +14,16 @@ import java.util.List;
 
 @Repository
 public class JdbcTemplateProductRepository  implements ProductRepository{
-
-    @Override
-    public ProductReturn findReturn(){
-        String sql = " select rid, title, description, list from product_return";
-        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProductReturn.class));
-    }
-
     private JdbcTemplate jdbcTemplate;
 
     public JdbcTemplateProductRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @Override
+    public ProductReturn findReturn() {
+        String sql = "select rid, title, description, list from product_return";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProductReturn.class));
     }
 
     @Override

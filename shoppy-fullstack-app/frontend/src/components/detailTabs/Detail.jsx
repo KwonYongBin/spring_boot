@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ImageList } from '../commons/ImageList.jsx';
-import { getDetailinfo } from '../../feature/product/ProductAPI.js';
+import { getDetailinfo } from '../../feature/product/ProductAPI';
 
 /**
  * ProductDetail > Detail  

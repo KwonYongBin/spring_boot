@@ -1,10 +1,20 @@
 import { useSelector } from 'react-redux';
 import "../styles/cart.css";
 import "../styles/checkoutinfo.css";
+import { getPayment } from '../feature/payment/paymentAPI.js';
 
 export function CheckoutInfo() {   
     const cartList = useSelector((state) => state.cart.cartList);
     const totalPrice = useSelector((state) => state.cart.totalPrice);
+    const name = cartList[0].mname;
+    const phone = cartList[0].phone;
+    const email = cartList[0].email;
+
+    /** payment */
+  const handlePayment = async() => {
+      const result = await getPayment();
+      console.log("result--->", result);
+  }
 
 return (
     <div className="cart-container">
@@ -15,14 +25,14 @@ return (
         <div className="info-box">
         <div className="info-grid">
             <div className="label">이름</div>
-            <div className="value">홍길동</div>
+            <div className="value">{name}</div>
 
             <div className="label">이메일</div>
-            <div className="value">hong@naver.com</div>
+            <div className="value">{email}</div>
 
             <div className="label">휴대폰 번호</div>
             <div className="value phone-input">
-            <input type="text" value="010-1234-1234"/>
+            <input type="text" value={phone}/>
             <button className="btn">수정</button>
             </div>
         </div>
@@ -63,7 +73,7 @@ return (
                 <>
                     <div className="label">상품명</div>
                     <div className="value">
-                        <img src={item.image} alt="product image" style={{width:'35px'}} />
+                        <img src={`/images/${item.image}`} alt="product image" style={{width:'35px'}} />
                         {item.name}, {item.info}, 수량({item.qty}), 가격({item.price.toLocaleString()}원)
                     </div>
                 </>
@@ -138,7 +148,22 @@ return (
         <label for="privacy">개인정보 국외 이전 동의</label>
     </div>
 
-    <button className="pay-button">결제하기</button>
+     <button className="pay-button" onClick={handlePayment}>결제하기</button>
     </div>
 );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

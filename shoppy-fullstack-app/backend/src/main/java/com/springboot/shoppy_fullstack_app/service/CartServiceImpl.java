@@ -18,7 +18,7 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public int deleteItem(CartItem cartItem){
+    public int deleteItem(CartItem cartItem) {
         return cartRepository.deleteItem(cartItem);
     }
 

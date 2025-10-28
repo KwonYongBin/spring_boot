@@ -63,7 +63,7 @@ public class JdbcTemplateOrderRepository implements OrderRepository {
                     insert into
                         order_details(order_code, pid, pname, size, qty, pid_total_price, discount)
                     select
-                        :orderCode, pid, name, as pname, size, qty, totalPrice as pid_total_price,
+                        :orderCode, pid, name as pname, size, qty, totalPrice as pid_total_price,
                         :discount
                     from view_cartlist
                     where cid in(:cidList);

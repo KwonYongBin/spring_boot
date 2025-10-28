@@ -17,11 +17,12 @@ export const getPayment = async(receiver, paymentInfo, cartList) => {
         "totalAmount" : cartList[0].totalPrice, // 결제 금액 (KRW)
         "receiver" : receiver, // springboot :: receiver inner class로 생성
         "paymentInfo" : paymentInfo, // springboot :: paymentInfo 'inner class'로 생성
-        "cidList": JSON.stringify(cidList)
+        "cidList": cidList
     }
     try {
         const kakaoReadyResult = await axiosPost(url, data);
         console.log("kakaoReadyResult --> ", kakaoReadyResult);
+
 
         if (kakaoReadyResult.tid) {
             console.log("tid-->", kakaoReadyResult.tid);

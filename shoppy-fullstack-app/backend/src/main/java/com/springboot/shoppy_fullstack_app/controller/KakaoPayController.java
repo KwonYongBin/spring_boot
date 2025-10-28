@@ -4,6 +4,7 @@ import com.springboot.shoppy_fullstack_app.dto.KakaoPay;
 import com.springboot.shoppy_fullstack_app.dto.KakaoApproveResponse;
 import com.springboot.shoppy_fullstack_app.dto.KakaoReadyResponse;
 import com.springboot.shoppy_fullstack_app.service.KakaoPayService;
+import com.springboot.shoppy_fullstack_app.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,13 @@ import java.util.UUID;
 public class KakaoPayController {
 
     private final KakaoPayService kakaoPayService;
+    private final OrderService orderService;
+    private KakaoPay payInfo = null; //kakaoPay DTO 클래스를 전역으로 선언
 
     @Autowired
-    public KakaoPayController(KakaoPayService kakaoPayService) {
+    public KakaoPayController(KakaoPayService kakaoPayService, OrderService orderService) {
         this.kakaoPayService = kakaoPayService;
+        this.orderService = orderService;
     }
 
     /**
@@ -32,6 +36,7 @@ public class KakaoPayController {
     @PostMapping("/kakao/ready")
     public KakaoReadyResponse paymentKakao(@RequestBody  KakaoPay kakaoPay) {
         // orderId(주문번호) 생성 : UUID class 사용
+        payInfo = kakaoPay; //kakaoPay 객체 주소를 payInfo 복사, 전역으로 확대
         kakaoPay.setOrderId(UUID.randomUUID().toString());
 
         String TEMP_TID = null; //카카오에서 페이지에 접근할 수 있는 권한을 부여
@@ -58,6 +63,9 @@ public class KakaoPayController {
 
         // 3. 결제 완료 처리 (DB 상태 업데이트 등)
         // DB 상태 업데이트 - 주문상품을 order_history 테이블 저장, cart에서는 삭제
+        int result = orderService.save(payInfo);
+        System.out.println("kakaopay ::: result >>> " + result);
+
         URI redirect = URI.create("http://localhost:3000/payResult?orderId=" + orderId + "&status=success");
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(redirect);

@@ -3,21 +3,25 @@ import { axiosPost } from '../../utils/dataFetch.js';
 /**
  결제
  */
-export const getPayment = async() => {
+export const getPayment = async(receiver, paymentInfo, cartList) => {
+    console.log(cartList)
+    const cidList = cartList.map(item => item.cid);
+    const qty = cartList.reduce((sum, item) => sum + parseInt(item.qty), 0);
     const { userId } = JSON.parse(localStorage.getItem("loginInfo"));
     const url = "/payment/kakao/ready";
-    console.log("userId --> ", userId);
     const data = {
-        "orderId" : "1234",
+        "orderId" : "",
         "userId" : userId,
-        "itemName" : "테스트 상품",
-        "qty" : "10",
-        "totalAmount" : "1000", // 결제 금액 (KRW)
+        "itemName" : cartList[0].name,
+        "qty" : qty,
+        "totalAmount" : cartList[0].totalPrice, // 결제 금액 (KRW)
+        "receiver" : receiver, // springboot :: receiver inner class로 생성
+        "paymentInfo" : paymentInfo, // springboot :: paymentInfo 'inner class'로 생성
+        "cidList": JSON.stringify(cidList)
     }
     try {
         const kakaoReadyResult = await axiosPost(url, data);
-        // window.location.href = response.data.next_redirect_pc_url;
-        console.log("getPayment :: response --> ", kakaoReadyResult.next_redirect_pc_url);
+        console.log("kakaoReadyResult --> ", kakaoReadyResult);
 
         if (kakaoReadyResult.tid) {
             console.log("tid-->", kakaoReadyResult.tid);

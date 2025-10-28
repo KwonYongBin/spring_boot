@@ -4,9 +4,11 @@ import com.springboot.shoppy_fullstack_app.dto.KakaoPay;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -58,6 +60,7 @@ public class JdbcTemplateOrderRepository implements OrderRepository {
     }
 
     @Override
+    @Transactional
     public int saveOrderDetail(KakaoPay kakaoPay) {
         String sql = """
                     insert into
@@ -73,5 +76,15 @@ public class JdbcTemplateOrderRepository implements OrderRepository {
         params.put("discount", kakaoPay.getPaymentInfo().getDiscountAmount());
         params.put("cidList", kakaoPay.getCidList());
         return 0;
+    }
+
+    @Override
+    public int deleteCartItem(List<Integer> cidList) {
+        String sql = """
+                    delete from cart where cid in (:cidList)
+                """;
+        Map<String, Object> params = new HashMap<>();
+        params.put("cidList", cidList);
+        return namedParameterJdbcTemplate.update(sql, params);
     }
 }
